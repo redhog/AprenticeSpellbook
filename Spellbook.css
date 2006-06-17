@@ -1,0 +1,123 @@
+@import url("Widgets.css");
+
+.login {
+ position: absolute;
+ width: 30%;
+ left: 40%;
+ width: 30%;
+ top: 40%;
+ padding: 10px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+ position: asbolute;
+ color: #ffffff;
+ background-color: #994444;
+}
+
+.dialog {
+ position: absolute;
+ width: 30%;
+ left: 40%;
+ width: 30%;
+ top: 40%;
+ padding: 10px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+ position: asbolute;
+ color: #ffffff;
+ background-color: #994444;
+}
+
+.actions {
+ float: right;
+}
+
+.actions h2 {
+ margin: -5px;
+ margin-top: 0px;
+ margin-bottom: 0px;
+ margin-bottom: 10px;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+ border-bottom-color: #000000;
+ padding-left: 5px;
+ padding-right: 5px;
+ padding-top: 0px;
+ padding-bottom: 0px;
+ color: #ffffff;
+ background-color: #994444;
+}
+
+.newGroup {
+ display: inline-block;
+ padding: 5px;
+ padding-top: 0px;
+ margin: 10px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+}
+
+.newUser {
+ display: inline-block;
+ padding: 5px;
+ padding-top: 0px;
+ margin: 10px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+}
+
+.groupListing table {
+ margin: 2px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+ background-color: #ffffff;
+ color: #000000;
+}
+
+.groupListing table input{
+ border-style: none;
+}
+
+.userListing table {
+ margin: 2px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+ background-color: #ffffff;
+ color: #000000;
+}
+
+.userListing table input{
+ border-style: none;
+}
+
+#root {
+ height: 100%;
+}
+
+#root-body {
+ width: 100%;
+ height: 100%;
+ padding: 0px;
+ margin: 0px;
+ background-color: #ffeeee;
+}
+
+#root-body-form {
+ height: 100%;
+}
+
+#root-body-message {
+ padding: 10px;
+ color: #ffffff;
+ background-color: #994444;
+}
+
+#root-body-main {
+ padding: 10px;
+}

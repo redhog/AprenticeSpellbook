@@ -1,5 +1,5 @@
 import Webwidgets, Grimoire, traceback
-import LogIn, HomeGroup, User
+import LogIn, HomeGroup, Group, User
 
 class index(Webwidgets.Program):
     def __init__(self, *args, **kws):
@@ -47,7 +47,8 @@ class index(Webwidgets.Program):
                 elif winId[0][0] == 'Groups':
                     main = Group.Group(program, winId)
                 else:
-                    raise Webwidgets.OutputGiven
+                    main = ''
+                    #raise Webwidgets.OutputGiven
                 Webwidgets.HtmlWidget.__init__(self, program, winId, main = main)
 
             class curWindow(Webwidgets.WindowPathList): pass
@@ -60,9 +61,18 @@ class index(Webwidgets.Program):
                            %(LogOut)s
                           </div>
                           """
-                HomeGroup = 'Home groups'
-                Group = 'Groups'
-                LogOut = 'Log out'
+
+                class HomeGroup(Webwidgets.ButtonInputWidget):
+                    title = 'Home groups'
+                    def clicked(self): self.program.redirectToWindow(['Users'], {})
+
+                class Group(Webwidgets.ButtonInputWidget):
+                    title = 'Groups'
+                    def clicked(self): self.program.redirectToWindow(['Groups'], {})
+
+                class LogOut(Webwidgets.ButtonInputWidget):
+                    title = 'Log out'
+                    def clicked(self): self.program.redirectToWindow(['log out'], {})
                 
             class message(Webwidgets.Message): pass
 

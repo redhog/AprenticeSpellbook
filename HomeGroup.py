@@ -66,7 +66,7 @@ class HomeGroup(Webwidgets.HtmlWidget):
     class groupListing(Webwidgets.HtmlWidget):
         html = """
         <div id="%(id)s">
-         <h2>Groups</h2>
+         <h2>Sub-departments</h2>
          %(upDir)s
          %(listing)s
         </div>
@@ -76,7 +76,7 @@ class HomeGroup(Webwidgets.HtmlWidget):
             self.children['listing'].update()
 
         class upDir(Webwidgets.ButtonInputWidget):
-            title = 'Go to parent group'
+            title = 'Go to parent department'
             def clicked(self):
                 self.program.redirectToWindow(self.winId[0][:-1], self.winId[1])
 
@@ -119,7 +119,26 @@ class HomeGroup(Webwidgets.HtmlWidget):
                     __explicit_load__ = True
                     def clicked(self):
                         self.program.redirectToWindow(self.winId[0] + (self.title,), self.winId[1])
-                class delete(Webwidgets.ButtonInputWidget): title='Delete'
+                class delete(Webwidgets.ButtonInputWidget):
+                    title='Delete'
+                    def clicked(self):
+                        class Dialog(Webwidgets.DialogWidget):
+                            entry = self.parent
+                            head="Really delete user?"
+                            class body(Webwidgets.HtmlWidget):
+                                html = 'Do you really want to delete %s' % self.parent.name
+                            def clicked(self, yes):
+                                 Webwidgets.DialogWidget.clicked(self, yes)
+                                 if int(yes):
+                                     try:
+                                         result = self.program.__._getpath(
+                                             path=['delete', 'home group'] + list(self.winId[0][1:]) + [self.entry.name])()
+                                     except Exception, result:
+                                         traceback.print_exc()
+                                     self.parent.children['message'].children['message'] = result and str(result)
+                                     self.entry.parent.update()
+                        self.parent.parent.parent.parent.parent.children['dialog'] = Dialog(self.program, self.winId)
+                    
                 def __init__(self, program, winId, **attrs):
                     Webwidgets.HtmlWidget.__init__(self, program, winId, **attrs)
                     self.children['goTo'] = self.GoTo(program, winId, title = self.name)
@@ -127,7 +146,7 @@ class HomeGroup(Webwidgets.HtmlWidget):
     class userListing(Webwidgets.HtmlWidget):
         html = """
         <div id="%(id)s">
-         <h2>Users</h2>
+         <h2>Users in this department</h2>
          %(listing)s
         </div>
         """

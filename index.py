@@ -63,7 +63,7 @@ class index(Webwidgets.Program):
                           """
 
                 class HomeGroup(Webwidgets.ButtonInputWidget):
-                    title = 'Home groups'
+                    title = 'Users'
                     def clicked(self): self.program.redirectToWindow(['Users'], {})
 
                 class Group(Webwidgets.ButtonInputWidget):

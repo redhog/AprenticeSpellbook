@@ -15,6 +15,7 @@ class Group(Webwidgets.HtmlWidget):
      </div>
     </div>
     <div class="listings">
+     <h1>Group: %(currentGroup)s</h1>
      <div class="groupListing">%(groupListing)s</div>
      <div class="memberListing">%(memberListing)s</div>
     </div>
@@ -50,10 +51,19 @@ class Group(Webwidgets.HtmlWidget):
             self.parent.children['addMemberName'].value = ''
             self.parent.update()
 
+    class currentGroup(Webwidgets.HtmlWidget):
+        html = "%(group)s"
+        def __init__(self, program, winId):
+            if winId[0][1:]:
+                group = str(Grimoire.Types.GrimoirePath(winId[0][1:]))
+            else:
+                group = "Top level group"
+            Webwidgets.HtmlWidget.__init__(self, program, winId, group = group)
+
     class groupListing(Webwidgets.HtmlWidget):
         html = """
         <div id="%(id)s">
-         <h2>Groups</h2>
+         <h2>Sub-groups</h2>
          %(upDir)s
          %(listing)s
         </div>

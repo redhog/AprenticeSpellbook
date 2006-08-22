@@ -1,5 +1,5 @@
 import Webwidgets, Grimoire, traceback
-import LogIn, HomeGroup, Group, User
+import LogIn, HomeGroup, Group, User, EmailAlias
 
 class index(Webwidgets.Program):
     def __init__(self, *args, **kws):
@@ -46,33 +46,44 @@ class index(Webwidgets.Program):
                         main = HomeGroup.HomeGroup(program, winId)
                 elif winId[0][0] == 'Groups':
                     main = Group.Group(program, winId)
+                elif winId[0][0] == 'Email aliases':
+                    main = EmailAlias.EmailAlias(program, winId)
+                elif winId[0][0] == 'Log out':
+                    program._ = None
+                    program.redirectToWindow(['log in'], {})
+                    raise Webwidgets.OutputGiven
                 else:
-                    main = ''
+                    main = self.__class__.menu(program, winId)
                     #raise Webwidgets.OutputGiven
                 Webwidgets.HtmlWidget.__init__(self, program, winId, main = main)
 
             class curWindow(Webwidgets.WindowPathList): pass
 
             class menu(Webwidgets.HtmlWidget):
-                __children__ = Webwidgets.HtmlWidget.__children__ + ('HomeGroup', 'Group', 'LogOut')
+                __children__ = Webwidgets.HtmlWidget.__children__ + ('Users', 'Groups', 'EmailAliases', 'LogOut')
                 html = """<div id="%(id)s-main">
-                           %(HomeGroup)s
-                           %(Group)s
+                           %(Users)s
+                           %(Groups)s
+                           %(EmailAliases)s
                            %(LogOut)s
                           </div>
                           """
 
-                class HomeGroup(Webwidgets.ButtonInputWidget):
+                class Users(Webwidgets.ButtonInputWidget):
                     title = 'Users'
                     def clicked(self): self.program.redirectToWindow(['Users'], {})
 
-                class Group(Webwidgets.ButtonInputWidget):
+                class Groups(Webwidgets.ButtonInputWidget):
                     title = 'Groups'
                     def clicked(self): self.program.redirectToWindow(['Groups'], {})
 
+                class EmailAliases(Webwidgets.ButtonInputWidget):
+                    title = 'Email aliases'
+                    def clicked(self): self.program.redirectToWindow(['Email aliases'], {})
+
                 class LogOut(Webwidgets.ButtonInputWidget):
                     title = 'Log out'
-                    def clicked(self): self.program.redirectToWindow(['log out'], {})
+                    def clicked(self): self.program.redirectToWindow(['Log out'], {})
                 
             class message(Webwidgets.Message): pass
 

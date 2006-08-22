@@ -18,6 +18,7 @@ class HomeGroup(Webwidgets.HtmlWidget):
      </div>
     </div>
     <div class="listings">
+     <h1>Department: %(currentGroup)s</h1>
      <div class="groupListing">%(groupListing)s</div>
      <div class="userListing">%(userListing)s</div>
     </div>
@@ -62,6 +63,15 @@ class HomeGroup(Webwidgets.HtmlWidget):
             objs['newUserGivenName'].value = ''
             objs['newUserSurName'].value = ''
             objs['newUserPassword'].value = ''
+
+    class currentGroup(Webwidgets.HtmlWidget):
+        html = "%(group)s"
+        def __init__(self, program, winId):
+            if winId[0][1:]:
+                group = str(Grimoire.Types.GrimoirePath(winId[0][1:]))
+            else:
+                group = "Top level department"
+            Webwidgets.HtmlWidget.__init__(self, program, winId, group = group)
 
     class groupListing(Webwidgets.HtmlWidget):
         html = """

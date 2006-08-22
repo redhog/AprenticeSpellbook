@@ -55,6 +55,36 @@
  border-color: #000000;
 }
 
+.newMember {
+ display: inline-block;
+ padding: 5px;
+ padding-top: 0px;
+ margin: 10px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+}
+
+.newDomain {
+ display: inline-block;
+ padding: 5px;
+ padding-top: 0px;
+ margin: 10px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+}
+
+.newEmailAlias {
+ display: inline-block;
+ padding: 5px;
+ padding-top: 0px;
+ margin: 10px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+}
+
 .groupListing table {
  margin: 2px;
  border-style: solid;
@@ -78,6 +108,32 @@
 }
 
 .userListing table input{
+ border-style: none;
+}
+
+.domainListing table {
+ margin: 2px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+ background-color: #ffffff;
+ color: #000000;
+}
+
+.domainListing table input{
+ border-style: none;
+}
+
+.aliasListing table {
+ margin: 2px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+ background-color: #ffffff;
+ color: #000000;
+}
+
+.aliasListing table input{
  border-style: none;
 }
 

@@ -1,5 +1,5 @@
 import Webwidgets, Grimoire, traceback
-import LogIn, HomeGroup, Group, User, EmailAlias
+import LogIn, HomeGroup, Group, User, EmailAlias, VpnAccounts
 
 class index(Webwidgets.Program):
     def __init__(self, *args, **kws):
@@ -48,6 +48,8 @@ class index(Webwidgets.Program):
                     main = Group.Group(program, winId)
                 elif winId[0][0] == 'Email aliases':
                     main = EmailAlias.EmailAlias(program, winId)
+                elif winId[0][0] == 'VPN Accounts':
+                    main = VpnAccounts.VpnAccounts(program, winId)
                 elif winId[0][0] == 'Log out':
                     program._ = None
                     program.redirectToWindow(['log in'], {})
@@ -65,6 +67,7 @@ class index(Webwidgets.Program):
                            %(Users)s
                            %(Groups)s
                            %(EmailAliases)s
+                           %(VpnAccounts)s
                            %(LogOut)s
                           </div>
                           """
@@ -80,6 +83,10 @@ class index(Webwidgets.Program):
                 class EmailAliases(Webwidgets.ButtonInputWidget):
                     title = 'Email aliases'
                     def clicked(self): self.program.redirectToWindow(['Email aliases'], {})
+
+                class VpnAccounts(Webwidgets.ButtonInputWidget):
+                    title = 'VPN Accounts'
+                    def clicked(self): self.program.redirectToWindow(['VPN Accounts'], {})
 
                 class LogOut(Webwidgets.ButtonInputWidget):
                     title = 'Log out'

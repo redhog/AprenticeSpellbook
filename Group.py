@@ -55,7 +55,7 @@ class Group(Webwidgets.HtmlWidget):
         html = "%(group)s"
         def __init__(self, program, winId):
             if winId[0][1:]:
-                group = str(Grimoire.Types.GrimoirePath(winId[0][1:]))
+                group = str(Grimoire.Types.UNIXGroup(('groups',) + winId[0][1:]))
             else:
                 group = "Top level group"
             Webwidgets.HtmlWidget.__init__(self, program, winId, group = group)

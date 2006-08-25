@@ -71,8 +71,8 @@ class VpnAccounts(Webwidgets.HtmlWidget):
                 self.children['sep'] = self.sep
                 self.children['post'] = self.post
                 self.children.update(
-                    dict([(str(client), self.Entry(self.program, self.winId, client=client, secret=secret, ip=ip))
-                          for client, (server, secret, ip) in entries.iteritems()]))
+                    dict([(str(client), self.Entry(self.program, self.winId, client=client, secret=item['secret'], ip=item['ip']))
+                          for client, item in entries.iteritems()]))
 
             class Entry(Webwidgets.HtmlWidget):
                 __explicit_load__ = True

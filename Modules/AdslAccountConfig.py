@@ -26,7 +26,8 @@ class AdslAccountConfig(Webwidgets.HtmlWidget):
         peerIP = Webwidgets.StringInputWidget(program, winId, value=Grimoire.Types.getValue(params.argdict['ip']).values[0])
         Webwidgets.HtmlWidget.__init__(
             self, program, winId,
-            peerName=winId[0][-1], peerClient=peerClient, peerPassphrase=peerPassphrase, peerIP=peerIP)
+            peerName=winId[0][-1], peerClient=peerClient, peerPassphrase=peerPassphrase, peerIP=peerIP,
+            **attrs)
 
     class save(Webwidgets.ButtonInputWidget):
         title = 'Save'

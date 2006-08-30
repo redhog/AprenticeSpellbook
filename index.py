@@ -1,5 +1,5 @@
 import Webwidgets, Grimoire, traceback
-import LogIn, HomeGroup, Group, User, EmailAlias, VpnAccounts, AdslConfig, AdslAccountConfig
+from Modules import LogIn, HomeGroup, Group, User, EmailAlias, VpnAccounts, AdslConfig, AdslAccountConfig, Self
 
 class index(Webwidgets.Program):
     def __init__(self, *args, **kws):
@@ -36,7 +36,9 @@ class index(Webwidgets.Program):
             """
 
             def __init__(self, program, winId):
-                if winId[0][0] == 'Users':
+                if winId[0][0] == 'Self':
+                    main = Self.Self(program, winId)
+                elif winId[0][0] == 'Users':
                     if len(winId[0]) > 0 and winId[0][-1] == 'Group users':
                         program.redirectToWindow(winId[0][:-1], winId[1])
                         raise Webwidgets.OutputGiven
@@ -71,6 +73,7 @@ class index(Webwidgets.Program):
             class menu(Webwidgets.HtmlWidget):
                 __children__ = Webwidgets.HtmlWidget.__children__ + ('Users', 'Groups', 'EmailAliases', 'LogOut')
                 html = """<div id="%(id)s-main">
+                           %(Me)s
                            %(Users)s
                            %(Groups)s
                            %(EmailAliases)s
@@ -79,6 +82,10 @@ class index(Webwidgets.Program):
                            %(LogOut)s
                           </div>
                           """
+
+                class Me(Webwidgets.ButtonInputWidget):
+                    title = 'Me'
+                    def clicked(self): self.program.redirectToWindow(['Self'], {})
 
                 class Users(Webwidgets.ButtonInputWidget):
                     title = 'Users'

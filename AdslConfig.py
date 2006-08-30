@@ -37,7 +37,7 @@ class AdslConfig(Webwidgets.HtmlWidget):
             except Exception, result:
                 traceback.print_exc()
             self.parent.parent.children['message'].children['message'] = result and str(result)
-            self.parent.children['newPeername'].value = ''
+            self.parent.children['newPeerName'].value = ''
             self.parent.children['newPeerClient'].value = ''
             self.parent.children['newPeerPassphrase'].value = ''
             self.parent.children['newPeerIP'].value = ''
@@ -47,12 +47,18 @@ class AdslConfig(Webwidgets.HtmlWidget):
         html = """
         <div id="%(id)s">
          <h2>ADSL peers</h2>
+         %(updateListing)s
          %(listing)s
         </div>
         """
 
         def update(self):
             self.children['listing'].update()
+
+        class updateListing(Webwidgets.ButtonInputWidget):
+            title = 'Update'
+            def clicked(self):
+                self.parent.update()
 
         class listing(Webwidgets.ListWidget):
 
@@ -62,7 +68,7 @@ class AdslConfig(Webwidgets.HtmlWidget):
                         Name
                        </th>
                        <th>
-                        Account
+                        User
                        </th>
                        <th>
                         Interface
@@ -102,10 +108,10 @@ class AdslConfig(Webwidgets.HtmlWidget):
                 html = """
                 <tr>
                  <td>
-                  %(title)s
+                  %(account)s
                  </td>
                  <td>
-                  %(account)s
+                  %(client)s
                  </td>
                  <td>
                   %(ifname)s
@@ -124,7 +130,7 @@ class AdslConfig(Webwidgets.HtmlWidget):
                  </td>
                 </tr>"""
                 def __init__(self, program, winId, title, connection, client, **attrs):
-                    account = self.Account(program, winId, title=client)
+                    account = self.Account(program, winId, title=title)
                     if connection:
                         control = self.Disable(program, winId)
                         ifname = connection['if']
@@ -135,10 +141,15 @@ class AdslConfig(Webwidgets.HtmlWidget):
                         ifname = ''
                         local = ''
                         remote = ''
-                    Webwidgets.HtmlWidget.__init__(self, program, winId, title=title, account=account, control=control, ifname=ifname, local=local, remote=remote, **attrs)
+                    Webwidgets.HtmlWidget.__init__(
+                        self, program, winId,
+                        title=title, account=account, client=client, control=control, ifname=ifname, local=local, remote=remote,
+                        **attrs)
 
                 class Account(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True
+                    def clicked(self):
+                        self.program.redirectToWindow(self.winId[0] + (self.parent.title,), self.winId[1])
 
                 class Enable(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True

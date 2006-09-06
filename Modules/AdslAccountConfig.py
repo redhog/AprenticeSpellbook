@@ -17,15 +17,15 @@ class AdslAccountConfig(Webwidgets.HtmlWidget):
     </div>
     """
 
-    def __init__(self, program, winId, **attrs):
+    def __init__(self, session, winId, **attrs):
         params = Grimoire.Types.getValue(
             program.__._getpath(path=['introspection', 'params', 'change', 'adsl', 'peer', 'properties'] + list(winId[0][1:])
                                 )())
-        peerClient = Webwidgets.StringInputWidget(program, winId, value=Grimoire.Types.getValue(params.argdict['user']).values[0])
-        peerPassphrase = Webwidgets.NewPasswordInputWidget(program, winId, value=Grimoire.Types.getValue(params.argdict['secret']).values[0])
-        peerIP = Webwidgets.StringInputWidget(program, winId, value=Grimoire.Types.getValue(params.argdict['ip']).values[0])
+        peerClient = Webwidgets.StringInputWidget(session, winId, value=Grimoire.Types.getValue(params.argdict['user']).values[0])
+        peerPassphrase = Webwidgets.NewPasswordInputWidget(session, winId, value=Grimoire.Types.getValue(params.argdict['secret']).values[0])
+        peerIP = Webwidgets.StringInputWidget(session, winId, value=Grimoire.Types.getValue(params.argdict['ip']).values[0])
         Webwidgets.HtmlWidget.__init__(
-            self, program, winId,
+            self, session, winId,
             peerName=winId[0][-1], peerClient=peerClient, peerPassphrase=peerPassphrase, peerIP=peerIP,
             **attrs)
 
@@ -33,7 +33,7 @@ class AdslAccountConfig(Webwidgets.HtmlWidget):
         title = 'Save'
         def clicked(self):
             try:
-                result = self.program.__._getpath(path=['change', 'adsl', 'peer', 'properties'] + list(self.winId[0][1:])
+                result = self.session.__._getpath(path=['change', 'adsl', 'peer', 'properties'] + list(self.winId[0][1:])
                                                   )(user = self.parent.children['peerClient'].value,
                                                     secret = self.parent.children['peerPassphrase'].value,
                                                     ip = self.parent.children['peerIP'].value)

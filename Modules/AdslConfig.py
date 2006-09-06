@@ -29,7 +29,7 @@ class AdslConfig(Webwidgets.HtmlWidget):
         title = 'Add'
         def clicked(self):
             try:
-                result = self.program.__._getpath(path=['create', 'adsl', 'peer'] + list(self.winId[0][1:])
+                result = self.session.__._getpath(path=['create', 'adsl', 'peer'] + list(self.winId[0][1:])
                                                   )(self.parent.children['newPeerName'].value,
                                                     self.parent.children['newPeerClient'].value,
                                                     self.parent.children['newPeerPassphrase'].value,
@@ -86,20 +86,20 @@ class AdslConfig(Webwidgets.HtmlWidget):
             sep = '\n'
             post = "</table>"
 
-            def __init__(self, program, winId, **attrs):
-                Webwidgets.ListWidget.__init__(self, program, winId, **attrs)
+            def __init__(self, session, winId, **attrs):
+                Webwidgets.ListWidget.__init__(self, session, winId, **attrs)
                 self.update()
 
             def update(self):
-                entries = self.program.__._callWithUnlockedTree(
-                    lambda: self.program.__._getpath(
+                entries = self.session.__._callWithUnlockedTree(
+                    lambda: self.session.__._getpath(
                        path=['list', 'adsl', 'peers'] + list(self.winId[0][1:]))(1, False))
                 self.children.clear()
                 self.children['pre'] = self.pre
                 self.children['sep'] = self.sep
                 self.children['post'] = self.post
                 self.children.update(
-                    dict([(name, self.Entry(self.program, self.winId, title = name, connection=peer.connection, client=peer.properties['user']))
+                    dict([(name, self.Entry(self.session, self.winId, title = name, connection=peer.connection, client=peer.properties['user']))
                           for name, peer in entries.iteritems()
                           if 'user' in peer.properties]))
 
@@ -129,34 +129,34 @@ class AdslConfig(Webwidgets.HtmlWidget):
                   %(delete)s
                  </td>
                 </tr>"""
-                def __init__(self, program, winId, title, connection, client, **attrs):
-                    account = self.Account(program, winId, title=title)
+                def __init__(self, session, winId, title, connection, client, **attrs):
+                    account = self.Account(session, winId, title=title)
                     if connection:
-                        control = self.Disable(program, winId)
+                        control = self.Disable(session, winId)
                         ifname = connection['if']
                         local = connection['local']
                         remote = connection['remote']           
                     else:
-                        control = self.Enable(program, winId)
+                        control = self.Enable(session, winId)
                         ifname = ''
                         local = ''
                         remote = ''
                     Webwidgets.HtmlWidget.__init__(
-                        self, program, winId,
+                        self, session, winId,
                         title=title, account=account, client=client, control=control, ifname=ifname, local=local, remote=remote,
                         **attrs)
 
                 class Account(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True
                     def clicked(self):
-                        self.program.redirectToWindow(self.winId[0] + (self.parent.title,), self.winId[1])
+                        self.session.redirectToWindow(self.winId[0] + (self.parent.title,), self.winId[1])
 
                 class Enable(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True
                     title = 'Enable'
                     def clicked(self):
                         try:
-                            result = self.program.__._getpath(path=['enable', 'adsl', 'peer'] + list(self.winId[0][1:]) + [self.parent.title])()
+                            result = self.session.__._getpath(path=['enable', 'adsl', 'peer'] + list(self.winId[0][1:]) + [self.parent.title])()
                         except Exception, result:
                             traceback.print_exc()
                         self.parent.parent.parent.parent.parent.children['message'].children['message'] = result and str(result)
@@ -167,7 +167,7 @@ class AdslConfig(Webwidgets.HtmlWidget):
                     title = 'Disable'
                     def clicked(self):
                         try:
-                            result = self.program.__._getpath(path=['disable', 'adsl', 'peer'] + list(self.winId[0][1:]) + [self.parent.title])()
+                            result = self.session.__._getpath(path=['disable', 'adsl', 'peer'] + list(self.winId[0][1:]) + [self.parent.title])()
                         except Exception, result:
                             traceback.print_exc()
                         self.parent.parent.parent.parent.parent.children['message'].children['message'] = result and str(result)
@@ -185,10 +185,10 @@ class AdslConfig(Webwidgets.HtmlWidget):
                                  Webwidgets.DialogWidget.clicked(self, yes)
                                  if int(yes):
                                      try:
-                                         result = self.program.__._getpath(
+                                         result = self.session.__._getpath(
                                              path=['delete', 'adsl', 'peer'] + list(self.winId[0][1:]) + [self.entry.title])()
                                      except Exception, result:
                                          traceback.print_exc()
                                      self.parent.children['message'].children['message'] = result and str(result)
                                      self.entry.parent.update()
-                        self.parent.parent.parent.parent.parent.children['dialog'] = Dialog(self.program, self.winId)
+                        self.parent.parent.parent.parent.parent.children['dialog'] = Dialog(self.session, self.winId)

@@ -9,9 +9,9 @@ class User(Webwidgets.HtmlWidget):
     </div>
     """
 
-    def __init__(self, program, winId, **attrs):
+    def __init__(self, session, winId, **attrs):
         Webwidgets.HtmlWidget.__init__(
-            self, program, winId,
+            self, session, winId,
             userName = winId[0][-1],
             **attrs)
 
@@ -21,7 +21,7 @@ class User(Webwidgets.HtmlWidget):
         title = 'Save'
         def clicked(self):
             try:
-                result = self.program.__._getpath(path=['change', 'password'] + list(self.winId[0][1:-2]) + [self.winId[0][-1]]
+                result = self.session.__._getpath(path=['change', 'password'] + list(self.winId[0][1:-2]) + [self.winId[0][-1]]
                                                   )(self.parent.children['userPassphrase'].value)
             except Exception, result:
                 traceback.print_exc()

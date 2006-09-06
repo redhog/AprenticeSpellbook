@@ -35,9 +35,9 @@ class LogIn(Webwidgets.Window):
                     tree = Grimoire._.trees.local.ldap(self.children['body'].children['username'].value,
                                                        self.children['body'].children['password'].value)
                     self.parent.children['message'].children['message'] = Grimoire.Types.getComment(tree) and str(Grimoire.Types.getComment(tree))
-                    self.program.__ = Grimoire.Performer.Physical(Grimoire.Types.getValue(tree))
-                    self.program._ = Grimoire.Performer.Logical(self.program.__)
-                    self.program.redirectToWindow(['Users'], {})
+                    self.session.__ = Grimoire.Performer.Physical(Grimoire.Types.getValue(tree))
+                    self.session._ = Grimoire.Performer.Logical(self.session.__)
+                    self.session.redirectToWindow(['Users'], {})
                 except Exception, e:
                     traceback.print_exc()
                     self.parent.children['message'].children['message'] = e and str(e)

@@ -1,6 +1,6 @@
 import Webwidgets, Grimoire, traceback
 
-class Self(Webwidgets.HtmlWidget):
+class Me(Webwidgets.HtmlWidget):
     html = """
     <div class="objinfo">
      <h2>Your account details</h2>
@@ -15,7 +15,7 @@ class Self(Webwidgets.HtmlWidget):
         title = 'Save'
         def clicked(self):
             try:
-                result = self.program.__._getpath(path=['change', 'own', 'password']
+                result = self.session.__._getpath(path=['change', 'own', 'password']
                                                   )(self.parent.children['selfPassphrase'].value)
             except Exception, result:
                 traceback.print_exc()

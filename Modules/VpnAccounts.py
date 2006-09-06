@@ -27,7 +27,7 @@ class VpnAccounts(Webwidgets.HtmlWidget):
         title = 'Add'
         def clicked(self):
             try:
-                result = self.program.__._getpath(path=['create', 'vpn', 'account'] + list(self.winId[0][1:])
+                result = self.session.__._getpath(path=['create', 'vpn', 'account'] + list(self.winId[0][1:])
                                                   )(self.parent.children['newAccountClient'].value,
                                                     self.parent.children['newAccountPassphrase'].value,
                                                     self.parent.children['newAccountIP'].value)
@@ -59,19 +59,19 @@ class VpnAccounts(Webwidgets.HtmlWidget):
             sep = '\n'
             post = "</table>"
 
-            def __init__(self, program, winId, **attrs):
-                Webwidgets.ListWidget.__init__(self, program, winId, **attrs)
+            def __init__(self, session, winId, **attrs):
+                Webwidgets.ListWidget.__init__(self, session, winId, **attrs)
                 self.update()
 
             def update(self):
-                entries = self.program.__._getpath(
+                entries = self.session.__._getpath(
                     path=['list', 'vpn', 'accounts'] + list(self.winId[0][1:]))(1, False)
                 self.children.clear()
                 self.children['pre'] = self.pre
                 self.children['sep'] = self.sep
                 self.children['post'] = self.post
                 self.children.update(
-                    dict([(str(client), self.Entry(self.program, self.winId, client=client, secret=item['secret'], ip=item['ip']))
+                    dict([(str(client), self.Entry(self.session, self.winId, client=client, secret=item['secret'], ip=item['ip']))
                           for client, item in entries.iteritems()]))
 
             class Entry(Webwidgets.HtmlWidget):
@@ -91,13 +91,13 @@ class VpnAccounts(Webwidgets.HtmlWidget):
                   %(delete)s
                  </td>
                 </tr>"""
-                def __init__(self, program, winId, client, secret, ip, **attrs):
-                    secret = Webwidgets.NewPasswordInputWidget(program, winId, value=secret)
-                    ip = Webwidgets.StringInputWidget(program, winId, value=ip)
-                    Webwidgets.HtmlWidget.__init__(self, program, winId, client=client, secret=secret, ip=ip, **attrs)
+                def __init__(self, session, winId, client, secret, ip, **attrs):
+                    secret = Webwidgets.NewPasswordInputWidget(session, winId, value=secret)
+                    ip = Webwidgets.StringInputWidget(session, winId, value=ip)
+                    Webwidgets.HtmlWidget.__init__(self, session, winId, client=client, secret=secret, ip=ip, **attrs)
                 def valueChanged(self, value):
                     try:
-                        result = self.program.__._getpath(path=['change', 'vpn', 'account'] + list(self.winId[0][1:]) + [self.client]
+                        result = self.session.__._getpath(path=['change', 'vpn', 'account'] + list(self.winId[0][1:]) + [self.client]
                                                           )(self.children['secret'].value,
                                                             self.children['ip'].value)
                     except Exception, result:
@@ -116,13 +116,13 @@ class VpnAccounts(Webwidgets.HtmlWidget):
                                  Webwidgets.DialogWidget.clicked(self, yes)
                                  if int(yes):
                                      try:
-                                         result = self.program.__._getpath(
+                                         result = self.session.__._getpath(
                                              path=['delete', 'vpn', 'account'] + list(self.winId[0][1:]) + [self.entry.client])()
                                      except Exception, result:
                                          traceback.print_exc()
                                      self.parent.children['message'].children['message'] = result and str(result)
                                      self.entry.parent.update()
-                        self.parent.parent.parent.parent.parent.children['dialog'] = Dialog(self.program, self.winId)
+                        self.parent.parent.parent.parent.parent.children['dialog'] = Dialog(self.session, self.winId)
 
 
 

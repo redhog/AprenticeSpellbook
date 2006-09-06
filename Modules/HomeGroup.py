@@ -33,7 +33,7 @@ class HomeGroup(Webwidgets.HtmlWidget):
         title = 'Add'
         def clicked(self):
             try:
-                result = self.program.__._getpath(path=['create', 'home group'] + list(self.winId[0][1:])
+                result = self.session.__._getpath(path=['create', 'home group'] + list(self.winId[0][1:])
                                                   )(self.parent.children['newGroupName'].value)
             except Exception, result:
                 traceback.print_exc()
@@ -50,7 +50,7 @@ class HomeGroup(Webwidgets.HtmlWidget):
         def clicked(self):
             objs = self.parent.children
             try:
-                result = self.program.__._getpath(path=['create', 'user'] + list(self.winId[0][1:])
+                result = self.session.__._getpath(path=['create', 'user'] + list(self.winId[0][1:])
                                                   )(Grimoire.Types.UsernameType(objs['newUserName'].value),
                                                     Grimoire.Types.NewPasswordType(objs['newUserPassword'].value),
                                                     Grimoire.Types.NonemptyUnicodeType(objs['newUserSurName'].value),
@@ -66,12 +66,12 @@ class HomeGroup(Webwidgets.HtmlWidget):
 
     class currentGroup(Webwidgets.HtmlWidget):
         html = "%(group)s"
-        def __init__(self, program, winId):
+        def __init__(self, session, winId):
             if winId[0][1:]:
                 group = str(Grimoire.Types.UNIXGroup(('people',) + winId[0][1:]))
             else:
                 group = "Top level department"
-            Webwidgets.HtmlWidget.__init__(self, program, winId, group = group)
+            Webwidgets.HtmlWidget.__init__(self, session, winId, group = group)
 
     class groupListing(Webwidgets.HtmlWidget):
         html = """
@@ -88,7 +88,7 @@ class HomeGroup(Webwidgets.HtmlWidget):
         class upDir(Webwidgets.ButtonInputWidget):
             title = 'Go to parent department'
             def clicked(self):
-                self.program.redirectToWindow(self.winId[0][:-1], self.winId[1])
+                self.session.redirectToWindow(self.winId[0][:-1], self.winId[1])
 
         class listing(Webwidgets.ListWidget):
 
@@ -96,13 +96,13 @@ class HomeGroup(Webwidgets.HtmlWidget):
             sep = '\n'
             post = "</table>"
 
-            def __init__(self, program, winId):
-                Webwidgets.ListWidget.__init__(self, program, winId)
+            def __init__(self, session, winId):
+                Webwidgets.ListWidget.__init__(self, session, winId)
                 self.update()
 
             def update(self):
                 entries = set([path[0]
-                               for leaf, path in self.program.__._getpath(
+                               for leaf, path in self.session.__._getpath(
                                    path=['introspection', 'dir', 'create', 'user'] + list(self.winId[0][1:]))(1)
                                if leaf and len(path) == 1])
                 self.children.clear()
@@ -110,7 +110,7 @@ class HomeGroup(Webwidgets.HtmlWidget):
                 self.children['sep'] = self.sep
                 self.children['post'] = self.post
                 self.children.update(
-                    dict([(str(name), self.Entry(self.program, self.winId, name=name))
+                    dict([(str(name), self.Entry(self.session, self.winId, name=name))
                           for name in entries]))
 
             class Entry(Webwidgets.HtmlWidget):
@@ -128,7 +128,7 @@ class HomeGroup(Webwidgets.HtmlWidget):
                 class GoTo(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True
                     def clicked(self):
-                        self.program.redirectToWindow(self.winId[0] + (self.title,), self.winId[1])
+                        self.session.redirectToWindow(self.winId[0] + (self.title,), self.winId[1])
                 class delete(Webwidgets.ButtonInputWidget):
                     title='Delete'
                     def clicked(self):
@@ -141,17 +141,17 @@ class HomeGroup(Webwidgets.HtmlWidget):
                                  Webwidgets.DialogWidget.clicked(self, yes)
                                  if int(yes):
                                      try:
-                                         result = self.program.__._getpath(
+                                         result = self.session.__._getpath(
                                              path=['delete', 'home group'] + list(self.winId[0][1:]) + [self.entry.name])()
                                      except Exception, result:
                                          traceback.print_exc()
                                      self.parent.children['message'].children['message'] = result and str(result)
                                      self.entry.parent.update()
-                        self.parent.parent.parent.parent.parent.children['dialog'] = Dialog(self.program, self.winId)
+                        self.parent.parent.parent.parent.parent.children['dialog'] = Dialog(self.session, self.winId)
                     
-                def __init__(self, program, winId, **attrs):
-                    Webwidgets.HtmlWidget.__init__(self, program, winId, **attrs)
-                    self.children['goTo'] = self.GoTo(program, winId, title = self.name)
+                def __init__(self, session, winId, **attrs):
+                    Webwidgets.HtmlWidget.__init__(self, session, winId, **attrs)
+                    self.children['goTo'] = self.GoTo(session, winId, title = self.name)
 
     class userListing(Webwidgets.HtmlWidget):
         html = """
@@ -170,13 +170,13 @@ class HomeGroup(Webwidgets.HtmlWidget):
             sep = '\n'
             post = "</table>"
 
-            def __init__(self, program, winId, **attrs):
-                Webwidgets.ListWidget.__init__(self, program, winId, **attrs)
+            def __init__(self, session, winId, **attrs):
+                Webwidgets.ListWidget.__init__(self, session, winId, **attrs)
                 self.update()
 
             def update(self):
                 entries = set([path[0]
-                               for leaf, path in self.program.__._getpath(
+                               for leaf, path in self.session.__._getpath(
                                    path=['introspection', 'dir', 'change', 'user'] + list(self.winId[0][1:]))(1)
                                if leaf and len(path) == 1])
                 self.children.clear()
@@ -184,7 +184,7 @@ class HomeGroup(Webwidgets.HtmlWidget):
                 self.children['sep'] = self.sep
                 self.children['post'] = self.post
                 self.children.update(
-                    dict([(str(name), self.Entry(self.program, self.winId, name=name))
+                    dict([(str(name), self.Entry(self.session, self.winId, name=name))
                           for name in entries]))
 
             class Entry(Webwidgets.HtmlWidget):
@@ -199,13 +199,13 @@ class HomeGroup(Webwidgets.HtmlWidget):
                   %(delete)s
                  </td>
                 </tr>"""
-                def __init__(self, program, winId, **attrs):
-                    Webwidgets.HtmlWidget.__init__(self, program, winId, **attrs)
-                    self.children['goTo'] = self.GoTo(program, winId, title = self.name)
+                def __init__(self, session, winId, **attrs):
+                    Webwidgets.HtmlWidget.__init__(self, session, winId, **attrs)
+                    self.children['goTo'] = self.GoTo(session, winId, title = self.name)
                 class GoTo(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True
                     def clicked(self):
-                        self.program.redirectToWindow(self.winId[0] + ('Group users', self.title), self.winId[1])
+                        self.session.redirectToWindow(self.winId[0] + ('Group users', self.title), self.winId[1])
                 class delete(Webwidgets.ButtonInputWidget):
                     title='Delete'
                     def clicked(self):
@@ -218,13 +218,13 @@ class HomeGroup(Webwidgets.HtmlWidget):
                                  Webwidgets.DialogWidget.clicked(self, yes)
                                  if int(yes):
                                      try:
-                                         result = self.program.__._getpath(
+                                         result = self.session.__._getpath(
                                              path=['delete', 'user'] + list(self.winId[0][1:]) + [self.entry.name])()
                                      except Exception, result:
                                          traceback.print_exc()
                                      self.parent.children['message'].children['message'] = result and str(result)
                                      self.entry.parent.update()
-                        self.parent.parent.parent.parent.parent.children['dialog'] = Dialog(self.program, self.winId)
+                        self.parent.parent.parent.parent.parent.children['dialog'] = Dialog(self.session, self.winId)
 
 
 

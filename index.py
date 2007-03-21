@@ -10,7 +10,8 @@ class index(Webwidgets.Program):
 
         def newWindow(self, winId):
             print winId
-            if winId[0][0] == 'log in':
+
+            if winId[0] and winId[0][0] == 'log in':
                 return LogIn.LogIn(self, winId)
 
             if self._ is None:

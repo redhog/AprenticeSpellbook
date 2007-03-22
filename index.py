@@ -68,6 +68,7 @@ class index(Webwidgets.Program):
                     else:
                         main = self.__class__.menu(session, winId)
                         #raise Webwidgets.OutputGiven
+
                     Webwidgets.HtmlWidget.__init__(self, session, winId, main = main)
 
                 class curWindow(Webwidgets.WindowPathList): pass
@@ -97,7 +98,8 @@ class index(Webwidgets.Program):
                         
                     class Button(Webwidgets.ButtonInputWidget):
                         __explicit_load__ = True
-                        def clicked(self): self.session.redirectToWindow([self.title], {})
+                        def clicked(self, path):
+                            self.session.redirectToWindow([self.title], {})
 
                 class message(Webwidgets.Message): pass
 
@@ -105,3 +107,4 @@ class index(Webwidgets.Program):
                     buttons = {}
                     body = head = ''
                     visible=False
+

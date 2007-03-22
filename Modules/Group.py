@@ -28,7 +28,7 @@ class Group(Webwidgets.HtmlWidget):
     class newGroupName(Webwidgets.StringInputWidget): value = ''
     class newGroup(Webwidgets.ButtonInputWidget):
         title = 'Add'
-        def clicked(self):
+        def clicked(self, path):
             try:
                 result = self.session.__._getpath(path=['create', 'group'] + list(self.winId[0][1:])
                                                   )(self.parent.children['newGroupName'].value)
@@ -41,7 +41,7 @@ class Group(Webwidgets.HtmlWidget):
     class addMemberName(Webwidgets.StringInputWidget): value = ''
     class addMember(Webwidgets.ButtonInputWidget):
         title = 'Add'
-        def clicked(self):
+        def clicked(self, path):
             try:
                 result = self.session.__._getpath(path=['change', 'group', 'add member'] + list(self.winId[0][1:])
                                                   )(self.parent.children['addMemberName'].value)
@@ -74,7 +74,7 @@ class Group(Webwidgets.HtmlWidget):
 
         class upDir(Webwidgets.ButtonInputWidget):
             title = 'Go to parent group'
-            def clicked(self):
+            def clicked(self, path):
                 self.session.redirectToWindow(self.winId[0][:-1], self.winId[1])
 
         class listing(Webwidgets.ListWidget):
@@ -115,18 +115,18 @@ class Group(Webwidgets.HtmlWidget):
                 </tr>"""
                 class GoTo(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True
-                    def clicked(self):
+                    def clicked(self, path):
                         self.session.redirectToWindow(self.winId[0] + (self.title,), self.winId[1])
                 class delete(Webwidgets.ButtonInputWidget):
                     title='Delete'
-                    def clicked(self):
+                    def clicked(self, path):
                         class Dialog(Webwidgets.DialogWidget):
                             entry = self.parent
                             head="Really delete group?"
                             class body(Webwidgets.HtmlWidget):
                                 html = 'Do you really want to delete the group %s' % self.parent.name
                             def clicked(self, yes):
-                                 Webwidgets.DialogWidget.clicked(self, yes)
+                                 Webwidgets.DialogWidget.clicked(self, path, yes)
                                  if int(yes):
                                      try:
                                          result = self.session.__._getpath(
@@ -185,14 +185,14 @@ class Group(Webwidgets.HtmlWidget):
                 </tr>"""
                 class delete(Webwidgets.ButtonInputWidget):
                     title='Delete'
-                    def clicked(self):
+                    def clicked(self, path):
                         class Dialog(Webwidgets.DialogWidget):
                             entry = self.parent
                             head="Really remove user from group?"
                             class body(Webwidgets.HtmlWidget):
                                 html = 'Do you really want to remove %s from this group' % self.parent.name
-                            def clicked(self, yes):
-                                 Webwidgets.DialogWidget.clicked(self, yes)
+                            def clicked(self, path, yes):
+                                 Webwidgets.DialogWidget.clicked(self, path, yes)
                                  if int(yes):
                                      try:
                                          result = self.session.__._getpath(

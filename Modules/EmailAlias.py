@@ -29,7 +29,7 @@ class EmailAlias(Webwidgets.HtmlWidget):
     class newDomainName(Webwidgets.StringInputWidget): value = ''
     class newDomain(Webwidgets.ButtonInputWidget):
         title = 'Add'
-        def clicked(self):
+        def clicked(self, path):
             try:
                 result = self.session.__._getpath(path=['create', 'domain'] + list(self.winId[0][1:])
                                                   )(self.parent.children['newDomainName'].value)
@@ -43,7 +43,7 @@ class EmailAlias(Webwidgets.HtmlWidget):
     class newAliasAddress(Webwidgets.StringInputWidget): value = ''
     class newAlias(Webwidgets.ButtonInputWidget):
         title = 'Add'
-        def clicked(self):
+        def clicked(self, path):
             objs = self.parent.children
             try:
                 result = self.session.__._getpath(path=['create', 'emailalias'] + list(self.winId[0][1:])
@@ -79,7 +79,7 @@ class EmailAlias(Webwidgets.HtmlWidget):
 
         class upDir(Webwidgets.ButtonInputWidget):
             title = 'Go to parent domain'
-            def clicked(self):
+            def clicked(self, path):
                 self.session.redirectToWindow(self.winId[0][:-1], self.winId[1])
 
         class listing(Webwidgets.ListWidget):
@@ -119,11 +119,11 @@ class EmailAlias(Webwidgets.HtmlWidget):
                 </tr>"""
                 class GoTo(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True
-                    def clicked(self):
+                    def clicked(self, path):
                         self.session.redirectToWindow(self.winId[0] + (self.title,), self.winId[1])
                 class delete(Webwidgets.ButtonInputWidget):
                     title='Delete'
-                    def clicked(self):
+                    def clicked(self, path):
                         class Dialog(Webwidgets.DialogWidget):
                             entry = self.parent
                             head="Really delete domain?"
@@ -193,7 +193,7 @@ class EmailAlias(Webwidgets.HtmlWidget):
                 </tr>"""
                 class delete(Webwidgets.ButtonInputWidget):
                     title='Delete'
-                    def clicked(self):
+                    def clicked(self, path):
                         class Dialog(Webwidgets.DialogWidget):
                             entry = self.parent
                             head="Really delete alias?"

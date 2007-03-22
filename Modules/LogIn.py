@@ -30,7 +30,7 @@ class LogIn(Webwidgets.Window):
                 class username(Webwidgets.StringInputWidget): value = ''
                 class password(Webwidgets.PasswordInputWidget): value = ''
 
-            def clicked(self, value):
+            def clicked(self, path, value):
                 try:
                     tree = Grimoire._.trees.local.ldap(self.children['body'].children['username'].value,
                                                        self.children['body'].children['password'].value)

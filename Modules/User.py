@@ -19,7 +19,7 @@ class User(Webwidgets.HtmlWidget):
 
     class save(Webwidgets.ButtonInputWidget):
         title = 'Save'
-        def clicked(self):
+        def clicked(self, path):
             try:
                 result = self.session.__._getpath(path=['change', 'password'] + list(self.winId[0][1:-2]) + [self.winId[0][-1]]
                                                   )(self.parent.children['userPassphrase'].value)

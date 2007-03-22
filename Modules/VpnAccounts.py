@@ -25,7 +25,7 @@ class VpnAccounts(Webwidgets.HtmlWidget):
     class newAccountIP(Webwidgets.StringInputWidget): value = ''
     class newAccount(Webwidgets.ButtonInputWidget):
         title = 'Add'
-        def clicked(self):
+        def clicked(self, path):
             try:
                 result = self.session.__._getpath(path=['create', 'vpn', 'account'] + list(self.winId[0][1:])
                                                   )(self.parent.children['newAccountClient'].value,
@@ -106,14 +106,14 @@ class VpnAccounts(Webwidgets.HtmlWidget):
                 
                 class delete(Webwidgets.ButtonInputWidget):
                     title='Delete'
-                    def clicked(self):
+                    def clicked(self, path):
                         class Dialog(Webwidgets.DialogWidget):
                             entry = self.parent
                             head="Really delete alias?"
                             class body(Webwidgets.HtmlWidget):
                                 html = 'Do you really want to delete %s' % self.parent.name
-                            def clicked(self, yes):
-                                 Webwidgets.DialogWidget.clicked(self, yes)
+                            def clicked(self, path, yes):
+                                 Webwidgets.DialogWidget.clicked(self, path, yes)
                                  if int(yes):
                                      try:
                                          result = self.session.__._getpath(

@@ -63,3 +63,17 @@ select {
 .NewPasswordInputWidget input {
  display: block;
 }
+
+.TreeWidget * {
+ border-style: none;
+ padding: 0px;
+ margin: 0px;
+ font-size: 11px;
+ vertical-align: top;
+ background: none;
+ color: #555555;
+}
+
+.TreeWidget input {
+ color: #000000;
+}

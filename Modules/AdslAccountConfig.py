@@ -31,7 +31,7 @@ class AdslAccountConfig(Webwidgets.HtmlWidget):
 
     class save(Webwidgets.ButtonInputWidget):
         title = 'Save'
-        def clicked(self):
+        def clicked(self, path):
             try:
                 result = self.session.__._getpath(path=['change', 'adsl', 'peer', 'properties'] + list(self.winId[0][1:])
                                                   )(user = self.parent.children['peerClient'].value,

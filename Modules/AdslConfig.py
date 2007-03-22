@@ -27,7 +27,7 @@ class AdslConfig(Webwidgets.HtmlWidget):
     class newPeerIP(Webwidgets.StringInputWidget): value = ''
     class newPeer(Webwidgets.ButtonInputWidget):
         title = 'Add'
-        def clicked(self):
+        def clicked(self, path):
             try:
                 result = self.session.__._getpath(path=['create', 'adsl', 'peer'] + list(self.winId[0][1:])
                                                   )(self.parent.children['newPeerName'].value,
@@ -57,7 +57,7 @@ class AdslConfig(Webwidgets.HtmlWidget):
 
         class updateListing(Webwidgets.ButtonInputWidget):
             title = 'Update'
-            def clicked(self):
+            def clicked(self, path):
                 self.parent.update()
 
         class listing(Webwidgets.ListWidget):
@@ -148,13 +148,13 @@ class AdslConfig(Webwidgets.HtmlWidget):
 
                 class Account(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True
-                    def clicked(self):
+                    def clicked(self, path):
                         self.session.redirectToWindow(self.winId[0] + (self.parent.title,), self.winId[1])
 
                 class Enable(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True
                     title = 'Enable'
-                    def clicked(self):
+                    def clicked(self, path):
                         try:
                             result = self.session.__._getpath(path=['enable', 'adsl', 'peer'] + list(self.winId[0][1:]) + [self.parent.title])()
                         except Exception, result:
@@ -165,7 +165,7 @@ class AdslConfig(Webwidgets.HtmlWidget):
                 class Disable(Webwidgets.ButtonInputWidget):
                     __explicit_load__ = True
                     title = 'Disable'
-                    def clicked(self):
+                    def clicked(self, path):
                         try:
                             result = self.session.__._getpath(path=['disable', 'adsl', 'peer'] + list(self.winId[0][1:]) + [self.parent.title])()
                         except Exception, result:
@@ -175,14 +175,14 @@ class AdslConfig(Webwidgets.HtmlWidget):
                 
                 class delete(Webwidgets.ButtonInputWidget):
                     title='Delete'
-                    def clicked(self):
+                    def clicked(self, path):
                         class Dialog(Webwidgets.DialogWidget):
                             entry = self.parent
                             head="Really delete alias?"
                             class body(Webwidgets.HtmlWidget):
                                 html = 'Do you really want to delete %s' % self.parent.name
-                            def clicked(self, yes):
-                                 Webwidgets.DialogWidget.clicked(self, yes)
+                            def clicked(self, path, yes):
+                                 Webwidgets.DialogWidget.clicked(self, path, yes)
                                  if int(yes):
                                      try:
                                          result = self.session.__._getpath(

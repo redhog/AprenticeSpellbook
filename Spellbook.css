@@ -1,20 +1,5 @@
 @import url("Widgets.css");
 
-.login {
- position: absolute;
- width: 30%;
- left: 40%;
- width: 30%;
- top: 40%;
- padding: 10px;
- border-style: solid;
- border-width: 1px;
- border-color: #000000;
- position: asbolute;
- color: #ffffff;
- background-color: #994444;
-}
-
 .dialog {
  position: absolute;
  width: 30%;
@@ -70,6 +55,36 @@
  border-color: #000000;
 }
 
+.newMember {
+ display: inline-block;
+ padding: 5px;
+ padding-top: 0px;
+ margin: 10px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+}
+
+.newDomain {
+ display: inline-block;
+ padding: 5px;
+ padding-top: 0px;
+ margin: 10px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+}
+
+.newEmailAlias {
+ display: inline-block;
+ padding: 5px;
+ padding-top: 0px;
+ margin: 10px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+}
+
 .groupListing table {
  margin: 2px;
  border-style: solid;
@@ -96,6 +111,32 @@
  border-style: none;
 }
 
+.domainListing table {
+ margin: 2px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+ background-color: #ffffff;
+ color: #000000;
+}
+
+.domainListing table input{
+ border-style: none;
+}
+
+.aliasListing table {
+ margin: 2px;
+ border-style: solid;
+ border-width: 1px;
+ border-color: #000000;
+ background-color: #ffffff;
+ color: #000000;
+}
+
+.aliasListing table input{
+ border-style: none;
+}
+
 #root {
  height: 100%;
 }
@@ -108,14 +149,22 @@
  background-color: #ffeeee;
 }
 
-#root-body-form {
- height: 100%;
+#root-body-menu-main {
+ color: #ffffff;
+ background-color: #994444;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+ border-bottom-color: #000000;
 }
 
 #root-body-message {
  padding: 10px;
  color: #ffffff;
  background-color: #994444;
+}
+
+#root-body-form {
+ height: 100%;
 }
 
 #root-body-main {

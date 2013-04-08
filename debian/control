@@ -1,0 +1,13 @@
+Source: aprenticespellbook
+Section: unknown
+Priority: optional
+Maintainer: Egil <egil.moller@freecode.no>
+Build-Depends: debhelper (>= 4.0.0)
+Standards-Version: 3.6.2
+
+Package: aprenticespellbook
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= ${pyversion}), python (<< ${pynextversion}), grimoire, webwidgets
+Description: The AprenticeSpellbook Grimoire front-end
+ AprenticeSpellbook is a front-end for a limited set of administrative
+ functions in Grimoire, presented in a simplified way.
